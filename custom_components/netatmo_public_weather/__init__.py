@@ -1,0 +1,1 @@
+"""Netatmo Public Weather integration."""

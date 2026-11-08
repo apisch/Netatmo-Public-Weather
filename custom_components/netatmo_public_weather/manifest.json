@@ -1,0 +1,13 @@
+{
+  "domain": "netatmo_public_weather",
+  "name": "Netatmo Public Weather",
+  "codeowners": ["@apisch"],
+  "config_flow": true,
+  "dependencies": ["application_credentials"],
+  "documentation": "https://github.com/apisch/Netatmo-Public-Weather",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/apisch/Netatmo-Public-Weather/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
