@@ -8,7 +8,7 @@ Every integration entry creates the following devices:
 | **‹entry› Primary** | always | weather entity, measurement sensors, *Active station*, *Data fresh* |
 | **‹entry› Average** | 2 or more stations | weather entity, measurement sensors, *Stations used* |
 
-Station names come from the street and town Netatmo reports. If Netatmo reports neither, the name is `Station` followed by the end of its ID. You can rename devices and entities in Home Assistant as usual; the unique IDs do not change.
+Station names come from what Netatmo reports. Usually that is only the town, so the end of the station ID is added to keep names distinct, for example `Rheine 48:8c`. If Netatmo also reports a street, the name is `street, town`. You can rename devices and entities in Home Assistant as usual; the unique IDs do not change.
 
 ## Measurement sensors
 

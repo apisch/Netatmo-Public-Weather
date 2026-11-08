@@ -165,11 +165,23 @@ def parse_public_data(body: list[dict[str, Any]]) -> dict[str, StationData]:
     return result
 
 
+def short_id(station_id: str) -> str:
+    """Return the last two bytes of a station MAC, e.g. '48:8c'."""
+    return station_id[-5:]
+
+
 def place_name(station: StationData) -> str:
-    """Return a human readable place name without distance."""
-    parts = [p for p in (station.street, station.city) if p]
-    if parts:
-        return ", ".join(parts)
+    """Return a human readable, distinct place name without distance.
+
+    Netatmo usually reports only a city, so the short station id is added
+    unless a street makes the name specific enough.
+    """
+    if station.street and station.city:
+        return f"{station.street}, {station.city}"
+    if station.street:
+        return station.street
+    if station.city:
+        return f"{station.city} {short_id(station.station_id)}"
     return f"Station {station.station_id[-11:]}"
 
 

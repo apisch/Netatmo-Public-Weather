@@ -67,4 +67,13 @@ def test_station_label(public_body):
     assert station_label(full, None) == "Example Street, Sampletown"
     label = station_label(full, (full.lat, full.lon + 0.0117))
     assert label == "Example Street, Sampletown · 0.8 km"
-    assert station_label(data[RAIN], None) == "Station 50:36:94:7c"
+    assert station_label(data[RAIN], None) == "Station 50:36:94:7c"  # no place at all
+
+
+def test_city_only_gets_short_id(public_body):
+    """Real Netatmo answers carry only a city, so names must stay distinct."""
+    public_body[0]["place"]["city"] = "Rheine"
+    public_body[1]["place"]["city"] = "Rheine"
+    data = parse_public_data(public_body)
+    assert station_label(data[RAIN], None) == "Rheine 94:7c"
+    assert station_label(data[WIND], None) == "Rheine ed:7a"
