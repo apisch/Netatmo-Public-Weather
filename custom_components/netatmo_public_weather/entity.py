@@ -5,7 +5,7 @@ from __future__ import annotations
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, VIEW_AVERAGE, VIEW_PRIMARY, station_view
+from .const import DOMAIN, VIEW_AVERAGE, VIEW_PRIMARY, station_view, weathermap_url
 from .coordinator import NetatmoPublicCoordinator, StationConfig
 from .model import WeatherValues
 
@@ -38,6 +38,7 @@ class ViewTarget:
             manufacturer="Netatmo (public data)",
             model=model,
             entry_type=DeviceEntryType.SERVICE,
+            configuration_url=weathermap_url(station.id) if station else None,
         )
 
 

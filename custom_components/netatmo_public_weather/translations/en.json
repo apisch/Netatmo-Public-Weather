@@ -21,7 +21,7 @@
       },
       "stations": {
         "title": "Choose 1 to 3 stations",
-        "description": "{count} public stations found, nearest first. Pick up to three. You can also type station IDs (MAC addresses, comma separated) for stations that are not listed.",
+        "description": "{count} public stations found, nearest first. Pick up to three. [🗺 Open the neighbourhood on the Netatmo map]({map_url}) to compare them. You can also type station IDs (MAC addresses, comma separated) for stations that are not listed.",
         "data": {
           "stations": "Stations",
           "manual_ids": "Station IDs (optional)"
@@ -29,7 +29,7 @@
       },
       "order": {
         "title": "Set the priority",
-        "description": "The primary station feeds the 'Primary' weather entity. If it stops reporting, the next station takes over completely.",
+        "description": "The primary station feeds the 'Primary' weather entity. If it stops reporting, the next station takes over completely.\n\nCheck your stations on the Netatmo map:\n{station_links}",
         "data": {
           "primary": "Primary station",
           "fallback_1": "First fallback",
@@ -84,7 +84,7 @@
       },
       "stations": {
         "title": "Choose 1 to 3 stations",
-        "description": "{count} public stations found, nearest first. Pick up to three. You can also type station IDs (MAC addresses, comma separated) for stations that are not listed.",
+        "description": "{count} public stations found, nearest first. Pick up to three. [🗺 Open the neighbourhood on the Netatmo map]({map_url}) to compare them. You can also type station IDs (MAC addresses, comma separated) for stations that are not listed.",
         "data": {
           "stations": "Stations",
           "manual_ids": "Station IDs (optional)"
@@ -92,7 +92,7 @@
       },
       "order": {
         "title": "Set the priority",
-        "description": "The primary station feeds the 'Primary' weather entity. If it stops reporting, the next station takes over completely.",
+        "description": "The primary station feeds the 'Primary' weather entity. If it stops reporting, the next station takes over completely.\n\nCheck your stations on the Netatmo map:\n{station_links}",
         "data": {
           "primary": "Primary station",
           "fallback_1": "First fallback",

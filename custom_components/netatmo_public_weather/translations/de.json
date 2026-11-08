@@ -21,7 +21,7 @@
       },
       "stations": {
         "title": "1 bis 3 Stationen auswählen",
-        "description": "{count} öffentliche Stationen gefunden, die nächste zuerst. Wähle bis zu drei aus. Stationen, die nicht aufgelistet sind, kannst du auch über ihre ID (MAC-Adresse, durch Komma getrennt) angeben.",
+        "description": "{count} öffentliche Stationen gefunden, die nächste zuerst. Wähle bis zu drei aus. [🗺 Nachbarschaft auf der Netatmo-Karte öffnen]({map_url}), um sie zu vergleichen. Stationen, die nicht aufgelistet sind, kannst du auch über ihre ID (MAC-Adresse, durch Komma getrennt) angeben.",
         "data": {
           "stations": "Stationen",
           "manual_ids": "Stations-IDs (optional)"
@@ -29,7 +29,7 @@
       },
       "order": {
         "title": "Reihenfolge festlegen",
-        "description": "Die Hauptstation speist den Wetter-Eintrag „Primary“. Meldet sie nichts mehr, übernimmt die nächste Station vollständig.",
+        "description": "Die Hauptstation speist den Wetter-Eintrag „Primary“. Meldet sie nichts mehr, übernimmt die nächste Station vollständig.\n\nDeine Stationen auf der Netatmo-Karte:\n{station_links}",
         "data": {
           "primary": "Hauptstation",
           "fallback_1": "Erster Ersatz",
@@ -126,7 +126,7 @@
       },
       "stations": {
         "title": "1 bis 3 Stationen auswählen",
-        "description": "{count} öffentliche Stationen gefunden, die nächste zuerst. Wähle bis zu drei aus. Stationen, die nicht aufgelistet sind, kannst du auch über ihre ID (MAC-Adresse, durch Komma getrennt) angeben.",
+        "description": "{count} öffentliche Stationen gefunden, die nächste zuerst. Wähle bis zu drei aus. [🗺 Nachbarschaft auf der Netatmo-Karte öffnen]({map_url}), um sie zu vergleichen. Stationen, die nicht aufgelistet sind, kannst du auch über ihre ID (MAC-Adresse, durch Komma getrennt) angeben.",
         "data": {
           "stations": "Stationen",
           "manual_ids": "Stations-IDs (optional)"
@@ -134,7 +134,7 @@
       },
       "order": {
         "title": "Reihenfolge festlegen",
-        "description": "Die Hauptstation speist den Wetter-Eintrag „Primary“. Meldet sie nichts mehr, übernimmt die nächste Station vollständig.",
+        "description": "Die Hauptstation speist den Wetter-Eintrag „Primary“. Meldet sie nichts mehr, übernimmt die nächste Station vollständig.\n\nDeine Stationen auf der Netatmo-Karte:\n{station_links}",
         "data": {
           "primary": "Hauptstation",
           "fallback_1": "Erster Ersatz",

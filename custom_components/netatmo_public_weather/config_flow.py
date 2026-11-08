@@ -56,7 +56,9 @@ from .const import (
     MIN_UPDATE_INTERVAL,
     MODULE_RAIN,
     MODULE_WIND,
+    MAP_ZOOM_OVERVIEW,
     SCOPE,
+    weathermap_url,
 )
 from .geo import bbox_from_radius, haversine_km
 from .model import StationData, parse_public_data, place_name, station_label
@@ -79,6 +81,8 @@ def _picker_label(station: StationData, home: tuple[float, float]) -> str:
     if MODULE_WIND in station.modules:
         icons += " 💨"
     label = f"{station_label(station, home)} · {icons}"
+    if station.altitude is not None:
+        label += f" · {station.altitude} m"
     if station.timestamps:
         age = dt_util.utcnow() - max(station.timestamps.values())
         label += f" · {max(int(age.total_seconds() // 60), 0)} min"
@@ -207,7 +211,11 @@ class StationPickerMixin:
             step_id="stations",
             data_schema=schema,
             errors=errors,
-            description_placeholders={"count": str(len(self._found))},
+            description_placeholders={
+                "count": str(len(self._found)),
+                # the list is sorted by distance, so the first is the nearest
+                "map_url": weathermap_url(next(iter(self._found)), MAP_ZOOM_OVERVIEW),
+            },
         )
 
     async def _async_add_manual(self, manual: list[str], chosen: list[str]) -> dict[str, str]:
@@ -258,7 +266,16 @@ class StationPickerMixin:
             SelectSelectorConfig(options=options, mode=SelectSelectorMode.DROPDOWN)
         )
         schema = vol.Schema({vol.Required(f, default=defaults[f]): selector for f in fields})
-        return self.async_show_form(step_id="order", data_schema=schema, errors=errors)  # type: ignore[attr-defined]
+        links = "\n".join(
+            f"- [{station_label(self._found[sid], self._home)}]({weathermap_url(sid)})"
+            for sid in self._chosen
+        )
+        return self.async_show_form(  # type: ignore[attr-defined]
+            step_id="order",
+            data_schema=schema,
+            errors=errors,
+            description_placeholders={"station_links": links},
+        )
 
     async def async_step_settings(
         self, user_input: dict[str, Any] | None = None

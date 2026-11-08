@@ -94,11 +94,21 @@ async def test_full_flow(hass, hass_client_no_auth, aioclient_mock):
     assert result["description_placeholders"]["count"] == "3"
     labels = [o["label"] for o in result["data_schema"].schema["stations"].config["options"]]
     assert labels[0].startswith("Example Street, Sampletown · 0.0 km · 🌡 🌧 💨")
+    # altitude helps to match the list with the Netatmo map
+    full_alt = next(s for s in load_payload()["body"] if s["_id"] == FULL)["place"]["altitude"]
+    assert f"{full_alt} m" in labels[0]
+    # overview map link centred on the nearest station
+    map_url = result["description_placeholders"]["map_url"]
+    assert map_url == f"https://weathermap.netatmo.com/?stationid={FULL}&zoom=13"
 
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], {"stations": [FULL, WIND]}
     )
     assert result["step_id"] == "order"
+    links = result["description_placeholders"]["station_links"]
+    assert f"(https://weathermap.netatmo.com/?stationid={FULL}&zoom=15)" in links
+    assert f"(https://weathermap.netatmo.com/?stationid={WIND}&zoom=15)" in links
+    assert links.count("\n") == 1  # one line per chosen station
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], {"primary": FULL, "fallback_1": WIND}
     )

@@ -71,6 +71,16 @@ async def test_setup_creates_entities(hass, aioclient_mock, credentials):
     assert gust.attributes["unit_of_measurement"] == "km/h"
     temp = hass.states.get(_eid(hass, "sensor", entry, "average", "temperature"))
     assert float(temp.state) == pytest.approx((20.1 + 21.4) / 2, abs=0.01)
+    from homeassistant.helpers import device_registry as dr
+
+    devices = {
+        ident: dev
+        for dev in dr.async_entries_for_config_entry(dr.async_get(hass), entry.entry_id)
+        for (_, ident) in dev.identifiers
+    }
+    station_dev = devices[f"{entry.entry_id}_{FULL.replace(':', '')}"]
+    assert station_dev.configuration_url == f"https://weathermap.netatmo.com/?stationid={FULL}&zoom=15"
+    assert devices[f"{entry.entry_id}_primary"].configuration_url is None
     weather = hass.states.get(_eid(hass, "weather", entry, "primary", "weather"))
     assert weather.attributes["temperature"] == 20.1
     assert weather.attributes["dew_point"] is not None

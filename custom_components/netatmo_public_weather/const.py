@@ -43,6 +43,16 @@ VIEW_PRIMARY: Final = "primary"
 VIEW_AVERAGE: Final = "average"
 
 
+WEATHERMAP_URL: Final = "https://weathermap.netatmo.com/"
+MAP_ZOOM_STATION: Final = 15
+MAP_ZOOM_OVERVIEW: Final = 13
+
+
+def weathermap_url(station_id: str, zoom: int = MAP_ZOOM_STATION) -> str:
+    """Return the Netatmo weathermap link that opens one station."""
+    return f"{WEATHERMAP_URL}?stationid={station_id}&zoom={zoom}"
+
+
 def station_view(station_id: str) -> str:
     """Return the view key of a single station."""
     return f"station:{station_id}"

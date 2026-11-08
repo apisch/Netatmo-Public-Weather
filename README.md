@@ -35,7 +35,7 @@ Stale data is never shown as current. If a station stops reporting, its entities
 
 ## Features
 
-- UI-only setup: you sign in with Netatmo and choose stations from a list sorted by distance, with icons for their modules (🌡 temperature, 🌧 rain, 💨 wind).
+- UI-only setup: you sign in with Netatmo and choose stations from a list sorted by distance, with icons for their modules (🌡 temperature, 🌧 rain, 💨 wind) and their altitude. Links open each station on the [Netatmo Weathermap](https://weathermap.netatmo.com/), so you can check location and history before you decide.
 - Failover with hysteresis. Primary switches away at once when a station fails, and switches back only after two good updates.
 - Optional source entity for condition, forecasts (daily, hourly, twice daily), UV index, cloud coverage, apparent temperature, visibility and ozone.
 - Measured rain beats the forecast model: if a station measures rain, the condition is `rainy` whatever the source says.

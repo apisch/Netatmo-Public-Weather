@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-11-09
+
+### Added
+- Netatmo Weathermap links in the setup and options flows. The station list links to a map of the neighbourhood, and the priority step links to each chosen station.
+- On each station device, **Visit** opens the station on the Netatmo Weathermap.
+- The station list shows each station's altitude, which helps to match it with the map.
+
 ## [0.1.3] - 2026-11-09
 
 ### Changed
@@ -34,6 +41,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - Options flow to change stations, priority, source and timing.
 - English and German UI, and English documentation.
 
+[0.2.0]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.1.0...v0.1.1
