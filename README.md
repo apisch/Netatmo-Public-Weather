@@ -5,6 +5,20 @@
 
 # Netatmo Public Weather
 
+[![Marketplace / HACS Custom](https://img.shields.io/badge/Marketplace%20%7C%20HACS-Custom-orange.svg)](https://www.home-assistant.io/integrations/marketplace/#custom-repositories)
+[![Release](https://img.shields.io/github/v/release/apisch/Netatmo-Public-Weather?sort=semver)](https://github.com/apisch/Netatmo-Public-Weather/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/apisch/Netatmo-Public-Weather)](https://github.com/apisch/Netatmo-Public-Weather/issues)
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2025.4%2B-41BDF5.svg)](https://www.home-assistant.io/)
+
+<!-- ha-marketplace:exclude-start -->
+[![Open in the Marketplace](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=apisch&repository=Netatmo-Public-Weather&category=integration)
+(Home Assistant 2026.11+)
+
+[![Add to HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=apisch&repository=Netatmo-Public-Weather&category=integration)
+(HACS on Home Assistant 2026.10 and older)
+<!-- ha-marketplace:exclude-end -->
+
 A Home Assistant integration that turns **public Netatmo weather stations in your neighbourhood** into weather entities and sensors. You don't need to own any Netatmo hardware.
 
 Pick one to three stations near you. The integration gives you:
@@ -33,15 +47,28 @@ Stale data is never shown as current. If a station stops reporting, its entities
 
 ## Installation
 
-### HACS (recommended)
+Requires **Home Assistant 2025.4 or newer**.
 
-1. In HACS, open the menu (⋮) → **Custom repositories**.
-2. Add `https://github.com/apisch/Netatmo-Public-Weather` with the type **Integration**.
-3. Search for **Netatmo Public Weather**, install it and restart Home Assistant.
+<!-- ha-marketplace:exclude-start -->
+### Marketplace (Home Assistant 2026.11+, recommended)
+
+Since Home Assistant 2026.11, HACS is built in as the **Marketplace**. This repository is not in the default catalogue, so you add it as a custom repository:
+
+1. Click the **Open in the Marketplace** button above, or go to **Settings → Marketplace → Add from link** and enter `https://github.com/apisch/Netatmo-Public-Weather` with the type **Integration**.
+2. Open **Netatmo Public Weather** and click **Install**.
+3. Restart Home Assistant if asked, then continue with the [Quick start](#quick-start).
+
+Updates appear under **Settings → Updates**. The release notes come from [CHANGELOG.md](CHANGELOG.md).
+
+### HACS (Home Assistant 2026.10 and older)
+
+1. Click the **Add to HACS** button above, or in HACS open the menu (⋮) → **Custom repositories** and add `https://github.com/apisch/Netatmo-Public-Weather` with the type **Integration**.
+2. Search for **Netatmo Public Weather**, install it and restart Home Assistant.
+<!-- ha-marketplace:exclude-end -->
 
 ### Manual
 
-Copy `custom_components/netatmo_public_weather` into the `custom_components` folder of your Home Assistant configuration, then restart.
+Copy `custom_components/netatmo_public_weather` from the [latest release](https://github.com/apisch/Netatmo-Public-Weather/releases/latest) into the `custom_components` folder of your Home Assistant configuration, then restart.
 
 ## Quick start
 
