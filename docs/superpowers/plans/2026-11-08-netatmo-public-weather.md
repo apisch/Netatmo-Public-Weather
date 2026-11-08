@@ -16,7 +16,7 @@
 The config flow uses HA's `application_credentials` and `AbstractOAuth2FlowHandler`.
 
 **Tech Stack:**
-- Python 3.14, Home Assistant ≥ 2025.1;
+- Python 3.14, Home Assistant ≥ 2025.4;
 - `aiohttp` through `config_entry_oauth2_flow.OAuth2Session`;
 - tests with `pytest-homeassistant-custom-component==0.13.375` in the Docker image `npw-test` (`.devcontainer-test/Dockerfile`).
 
@@ -29,7 +29,7 @@ docker run --rm -v /root/homelab/netatmo-public-weather:/work npw-test pytest -q
 
 ## Global Constraints
 
-- Domain `netatmo_public_weather`, name "Netatmo Public Weather", license MIT, `"homeassistant": "2025.1.0"` in hacs.json.
+- Domain `netatmo_public_weather`, name "Netatmo Public Weather", license MIT, `"homeassistant": "2025.4.0"` in hacs.json.
 - Netatmo endpoints:
   - authorize `https://api.netatmo.com/oauth2/authorize`;
   - token `https://api.netatmo.com/oauth2/token`;

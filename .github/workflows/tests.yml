@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - name: Install test requirements
+        run: pip install -r requirements_test.txt
+      - name: Check that translations/en.json is generated from strings.json
+        run: |
+          python3 scripts/build_translations.py
+          git diff --exit-code custom_components/netatmo_public_weather/translations/en.json
+      - name: Run tests
+        run: pytest -q

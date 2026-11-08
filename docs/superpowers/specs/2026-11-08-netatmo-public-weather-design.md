@@ -64,7 +64,7 @@ These would count as failure even if the code otherwise works.
 - **Home Assistant.**
   - The integration uses `application_credentials` and `config_entry_oauth2_flow`, so HA stores and rotates the tokens.
   - A reauth flow covers revoked tokens.
-  - The minimum HA version is 2025.1 (builder's call, see 9.)
+  - The minimum HA version is 2025.4. It was first planned as 2025.1, but `AddConfigEntryEntitiesCallback` needs a newer version; the test suite was run against 2025.4.
   - The integration must pass `hassfest` and the HACS validation action.
 - **Domain name.** The domain must not collide with core `netatmo`. Domain: `netatmo_public_weather`. Display name: "Netatmo Public Weather".
 - **Redirect URI.** The Netatmo app must allow `https://my.home-assistant.io/redirect/oauth`. This is the standard HA flow.
@@ -253,7 +253,7 @@ These steps are not part of the repository deliverable, but they are part of don
 - There is a dew point calculation.
 - Compass text and arrow sensors are not created.
 - There is no pyatmo; the integration has its own small client.
-- The minimum HA version is 2025.1.
+- The minimum HA version is 2025.4 (verified by running the tests against it).
 - The license is MIT.
 - A repair issue appears for a station missing for 7 days.
 
