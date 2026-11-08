@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/dark_logo.png">
+  <img alt="Netatmo Public Weather" src="docs/images/logo.png" height="96">
+</picture>
+
 # Netatmo Public Weather
 
 A Home Assistant integration that turns **public Netatmo weather stations in your neighbourhood** into weather entities and sensors. You don't need to own any Netatmo hardware.
@@ -89,7 +94,7 @@ After editing `strings.json`, regenerate the English translation with `python3 s
 
 ## Disclaimer
 
-This project is not affiliated with or endorsed by Netatmo. It uses the public data API that Netatmo provides to developers. Weather data belongs to the station owners who choose to share it.
+This project is not affiliated with or endorsed by Netatmo. The logo is an original design and does not use Netatmo's trademarks. It uses the public data API that Netatmo provides to developers. Weather data belongs to the station owners who choose to share it.
 
 ## License
 
