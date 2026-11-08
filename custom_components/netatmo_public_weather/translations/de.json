@@ -1,0 +1,167 @@
+{
+  "application_credentials": {
+    "description": "Lege unter [{developer_url}]({developer_url}) eine eigene Netatmo-App an und trage dort als Redirect-URI `{redirect_url}` ein. Gib hier anschließend Client-ID und Client-Secret der App ein. Schritt-für-Schritt-Anleitung (Englisch): [{docs_url}]({docs_url})"
+  },
+  "config": {
+    "step": {
+      "pick_implementation": {
+        "title": "Authentifizierungsmethode wählen"
+      },
+      "reauth_confirm": {
+        "title": "Authentifizierung abgelaufen",
+        "description": "Netatmo akzeptiert die gespeicherte Anmeldung nicht mehr. Melde dich erneut an, um fortzufahren."
+      },
+      "area": {
+        "title": "Wo soll nach Stationen gesucht werden?",
+        "description": "Wähle den Mittelpunkt deiner Nachbarschaft und einen Suchradius. Im nächsten Schritt werden die öffentlichen Netatmo-Stationen in diesem Bereich aufgelistet.",
+        "data": {
+          "location": "Mittelpunkt",
+          "radius_km": "Suchradius (km)"
+        }
+      },
+      "stations": {
+        "title": "1 bis 3 Stationen auswählen",
+        "description": "{count} öffentliche Stationen gefunden, die nächste zuerst. Wähle bis zu drei aus. Stationen, die nicht aufgelistet sind, kannst du auch über ihre ID (MAC-Adresse, durch Komma getrennt) angeben.",
+        "data": {
+          "stations": "Stationen",
+          "manual_ids": "Stations-IDs (optional)"
+        }
+      },
+      "order": {
+        "title": "Reihenfolge festlegen",
+        "description": "Die Hauptstation speist den Wetter-Eintrag „Primary“. Meldet sie nichts mehr, übernimmt die nächste Station vollständig.",
+        "data": {
+          "primary": "Hauptstation",
+          "fallback_1": "Erster Ersatz",
+          "fallback_2": "Zweiter Ersatz"
+        }
+      },
+      "settings": {
+        "title": "Einstellungen",
+        "description": "Optional kannst du einen vorhandenen Wetter-Eintrag wählen. Von dort kommen Zustand, Vorhersage, UV-Index und andere Werte, die Netatmo nicht misst.",
+        "data": {
+          "source_entity": "Quelle für Zustand und Vorhersage (optional)",
+          "update_interval": "Abrufintervall (Minuten)",
+          "stale_minutes": "Station gilt als ausgefallen nach (Minuten ohne neue Daten)"
+        }
+      }
+    },
+    "error": {
+      "no_stations": "In diesem Bereich wurden keine öffentlichen Stationen gefunden. Versuche einen größeren Radius.",
+      "too_few": "Wähle mindestens eine Station aus.",
+      "too_many": "Wähle höchstens drei Stationen aus.",
+      "duplicate_order": "Jede Station darf in der Reihenfolge nur einmal vorkommen.",
+      "invalid_id": "Eine der Stations-IDs ist keine gültige MAC-Adresse oder wurde nicht gefunden.",
+      "cannot_connect": "Netatmo ist nicht erreichbar. Versuche es später erneut.",
+      "primary_missing_modules": "Die Hauptstation hat keinen Wind- oder keinen Regenmesser, dem Primary-Eintrag fehlen diese Werte dann, solange sie aktiv ist. Erneut absenden, um die Reihenfolge trotzdem zu behalten."
+    },
+    "abort": {
+      "already_configured": "Konto ist bereits konfiguriert",
+      "missing_configuration": "Die Integration ist nicht eingerichtet. Lege zuerst Anwendungs-Anmeldedaten an.",
+      "authorize_url_timeout": "Zeitüberschreitung beim Erzeugen der Autorisierungs-URL.",
+      "no_url_available": "Keine URL verfügbar. Informationen zu diesem Fehler findest du im Hilfebereich.",
+      "oauth_error": "Ungültige Token-Daten empfangen.",
+      "oauth_timeout": "Zeitüberschreitung beim Abrufen des OAuth-Tokens.",
+      "oauth_unauthorized": "OAuth-Autorisierungsfehler beim Abrufen des Zugriffstokens.",
+      "oauth_failed": "Fehler beim Abrufen des Zugriffstokens.",
+      "user_rejected_authorize": "Kontoverknüpfung abgelehnt.",
+      "reauth_successful": "Erneute Authentifizierung erfolgreich",
+      "cannot_connect": "Netatmo ist nicht erreichbar. Versuche es später erneut."
+    },
+    "create_entry": {
+      "default": "Erfolgreich authentifiziert"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "rain_live": {
+        "name": "Regenintensität"
+      },
+      "rain_60min": {
+        "name": "Regen letzte Stunde"
+      },
+      "rain_24h": {
+        "name": "Regen letzte 24 Stunden"
+      },
+      "wind_strength": {
+        "name": "Windgeschwindigkeit"
+      },
+      "wind_angle": {
+        "name": "Windrichtung"
+      },
+      "gust_strength": {
+        "name": "Böengeschwindigkeit"
+      },
+      "gust_angle": {
+        "name": "Böenrichtung"
+      },
+      "active_station": {
+        "name": "Aktive Station"
+      },
+      "stations_used": {
+        "name": "Genutzte Stationen"
+      }
+    },
+    "binary_sensor": {
+      "healthy": {
+        "name": "Daten aktuell"
+      }
+    }
+  },
+  "issues": {
+    "station_gone": {
+      "title": "Netatmo-Station {station} ist verschwunden",
+      "description": "Die öffentliche Station {station} wurde seit 7 Tagen nicht mehr gesehen. Sie wurde vermutlich entfernt oder auf privat gestellt. Öffne die Optionen der Integration und wähle eine andere Station."
+    }
+  },
+  "options": {
+    "step": {
+      "area": {
+        "title": "Wo soll nach Stationen gesucht werden?",
+        "description": "Wähle den Mittelpunkt deiner Nachbarschaft und einen Suchradius. Im nächsten Schritt werden die öffentlichen Netatmo-Stationen in diesem Bereich aufgelistet.",
+        "data": {
+          "location": "Mittelpunkt",
+          "radius_km": "Suchradius (km)"
+        }
+      },
+      "stations": {
+        "title": "1 bis 3 Stationen auswählen",
+        "description": "{count} öffentliche Stationen gefunden, die nächste zuerst. Wähle bis zu drei aus. Stationen, die nicht aufgelistet sind, kannst du auch über ihre ID (MAC-Adresse, durch Komma getrennt) angeben.",
+        "data": {
+          "stations": "Stationen",
+          "manual_ids": "Stations-IDs (optional)"
+        }
+      },
+      "order": {
+        "title": "Reihenfolge festlegen",
+        "description": "Die Hauptstation speist den Wetter-Eintrag „Primary“. Meldet sie nichts mehr, übernimmt die nächste Station vollständig.",
+        "data": {
+          "primary": "Hauptstation",
+          "fallback_1": "Erster Ersatz",
+          "fallback_2": "Zweiter Ersatz"
+        }
+      },
+      "settings": {
+        "title": "Einstellungen",
+        "description": "Optional kannst du einen vorhandenen Wetter-Eintrag wählen. Von dort kommen Zustand, Vorhersage, UV-Index und andere Werte, die Netatmo nicht misst.",
+        "data": {
+          "source_entity": "Quelle für Zustand und Vorhersage (optional)",
+          "update_interval": "Abrufintervall (Minuten)",
+          "stale_minutes": "Station gilt als ausgefallen nach (Minuten ohne neue Daten)"
+        }
+      }
+    },
+    "error": {
+      "no_stations": "In diesem Bereich wurden keine öffentlichen Stationen gefunden. Versuche einen größeren Radius.",
+      "too_few": "Wähle mindestens eine Station aus.",
+      "too_many": "Wähle höchstens drei Stationen aus.",
+      "duplicate_order": "Jede Station darf in der Reihenfolge nur einmal vorkommen.",
+      "invalid_id": "Eine der Stations-IDs ist keine gültige MAC-Adresse oder wurde nicht gefunden.",
+      "cannot_connect": "Netatmo ist nicht erreichbar. Versuche es später erneut.",
+      "primary_missing_modules": "Die Hauptstation hat keinen Wind- oder keinen Regenmesser, dem Primary-Eintrag fehlen diese Werte dann, solange sie aktiv ist. Erneut absenden, um die Reihenfolge trotzdem zu behalten."
+    },
+    "abort": {
+      "not_loaded": "Die Integration muss geladen sein, damit du die Optionen ändern kannst. Im Log steht, warum sie nicht startet."
+    }
+  }
+}

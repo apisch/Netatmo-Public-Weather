@@ -1,0 +1,167 @@
+{
+  "application_credentials": {
+    "description": "Create your own Netatmo app at [{developer_url}]({developer_url}) and set its redirect URI to `{redirect_url}`. Then enter the app's client ID and client secret here. Step-by-step guide: [{docs_url}]({docs_url})"
+  },
+  "config": {
+    "step": {
+      "pick_implementation": {
+        "title": "[%key:common::config_flow::title::oauth2_pick_implementation%]"
+      },
+      "reauth_confirm": {
+        "title": "[%key:common::config_flow::title::reauth%]",
+        "description": "Netatmo no longer accepts the stored login. Sign in again to continue."
+      },
+      "area": {
+        "title": "Where should we look for stations?",
+        "description": "Pick the centre of your neighbourhood and a search radius. Public Netatmo stations inside this area will be listed next.",
+        "data": {
+          "location": "Centre",
+          "radius_km": "Search radius (km)"
+        }
+      },
+      "stations": {
+        "title": "Choose 1 to 3 stations",
+        "description": "{count} public stations found, nearest first. Pick up to three. You can also type station IDs (MAC addresses, comma separated) for stations that are not listed.",
+        "data": {
+          "stations": "Stations",
+          "manual_ids": "Station IDs (optional)"
+        }
+      },
+      "order": {
+        "title": "Set the priority",
+        "description": "The primary station feeds the 'Primary' weather entity. If it stops reporting, the next station takes over completely.",
+        "data": {
+          "primary": "Primary station",
+          "fallback_1": "First fallback",
+          "fallback_2": "Second fallback"
+        }
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Optionally pick an existing weather entity. Condition, forecast, UV index and other values Netatmo cannot measure are taken from it.",
+        "data": {
+          "source_entity": "Source for condition and forecast (optional)",
+          "update_interval": "Update interval (minutes)",
+          "stale_minutes": "Treat a station as down after (minutes without new data)"
+        }
+      }
+    },
+    "error": {
+      "no_stations": "No public stations found in this area. Try a larger radius.",
+      "too_few": "Pick at least one station.",
+      "too_many": "Pick at most three stations.",
+      "duplicate_order": "Each station can only be used once in the priority list.",
+      "invalid_id": "One of the station IDs is not a valid MAC address or was not found near its position.",
+      "cannot_connect": "Could not reach Netatmo. Try again later.",
+      "primary_missing_modules": "The primary station has no wind or no rain module, so the Primary entity will lack these values while it is active. Submit again to keep this order."
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
+      "missing_configuration": "[%key:common::config_flow::abort::oauth2_missing_configuration%]",
+      "authorize_url_timeout": "[%key:common::config_flow::abort::oauth2_authorize_url_timeout%]",
+      "no_url_available": "[%key:common::config_flow::abort::oauth2_no_url_available%]",
+      "oauth_error": "[%key:common::config_flow::abort::oauth2_error%]",
+      "oauth_timeout": "[%key:common::config_flow::abort::oauth2_timeout%]",
+      "oauth_unauthorized": "[%key:common::config_flow::abort::oauth2_unauthorized%]",
+      "oauth_failed": "[%key:common::config_flow::abort::oauth2_failed%]",
+      "user_rejected_authorize": "[%key:common::config_flow::abort::oauth2_user_rejected_authorize%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "cannot_connect": "Could not reach Netatmo. Try again later."
+    },
+    "create_entry": {
+      "default": "[%key:common::config_flow::create_entry::authenticated%]"
+    }
+  },
+  "options": {
+    "step": {
+      "area": {
+        "title": "[%key:component::netatmo_public_weather::config::step::area::title%]",
+        "description": "[%key:component::netatmo_public_weather::config::step::area::description%]",
+        "data": {
+          "location": "[%key:component::netatmo_public_weather::config::step::area::data::location%]",
+          "radius_km": "[%key:component::netatmo_public_weather::config::step::area::data::radius_km%]"
+        }
+      },
+      "stations": {
+        "title": "[%key:component::netatmo_public_weather::config::step::stations::title%]",
+        "description": "[%key:component::netatmo_public_weather::config::step::stations::description%]",
+        "data": {
+          "stations": "[%key:component::netatmo_public_weather::config::step::stations::data::stations%]",
+          "manual_ids": "[%key:component::netatmo_public_weather::config::step::stations::data::manual_ids%]"
+        }
+      },
+      "order": {
+        "title": "[%key:component::netatmo_public_weather::config::step::order::title%]",
+        "description": "[%key:component::netatmo_public_weather::config::step::order::description%]",
+        "data": {
+          "primary": "[%key:component::netatmo_public_weather::config::step::order::data::primary%]",
+          "fallback_1": "[%key:component::netatmo_public_weather::config::step::order::data::fallback_1%]",
+          "fallback_2": "[%key:component::netatmo_public_weather::config::step::order::data::fallback_2%]"
+        }
+      },
+      "settings": {
+        "title": "[%key:component::netatmo_public_weather::config::step::settings::title%]",
+        "description": "[%key:component::netatmo_public_weather::config::step::settings::description%]",
+        "data": {
+          "source_entity": "[%key:component::netatmo_public_weather::config::step::settings::data::source_entity%]",
+          "update_interval": "[%key:component::netatmo_public_weather::config::step::settings::data::update_interval%]",
+          "stale_minutes": "[%key:component::netatmo_public_weather::config::step::settings::data::stale_minutes%]"
+        }
+      }
+    },
+    "error": {
+      "no_stations": "[%key:component::netatmo_public_weather::config::error::no_stations%]",
+      "too_few": "[%key:component::netatmo_public_weather::config::error::too_few%]",
+      "too_many": "[%key:component::netatmo_public_weather::config::error::too_many%]",
+      "duplicate_order": "[%key:component::netatmo_public_weather::config::error::duplicate_order%]",
+      "invalid_id": "[%key:component::netatmo_public_weather::config::error::invalid_id%]",
+      "cannot_connect": "[%key:component::netatmo_public_weather::config::error::cannot_connect%]",
+      "primary_missing_modules": "[%key:component::netatmo_public_weather::config::error::primary_missing_modules%]"
+    },
+    "abort": {
+      "not_loaded": "The integration must be loaded to change its options. Check the logs for why it failed to start."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "rain_live": {
+        "name": "Rain intensity"
+      },
+      "rain_60min": {
+        "name": "Rain last hour"
+      },
+      "rain_24h": {
+        "name": "Rain last 24 hours"
+      },
+      "wind_strength": {
+        "name": "Wind speed"
+      },
+      "wind_angle": {
+        "name": "Wind direction"
+      },
+      "gust_strength": {
+        "name": "Gust speed"
+      },
+      "gust_angle": {
+        "name": "Gust direction"
+      },
+      "active_station": {
+        "name": "Active station"
+      },
+      "stations_used": {
+        "name": "Stations used"
+      }
+    },
+    "binary_sensor": {
+      "healthy": {
+        "name": "Data fresh"
+      }
+    }
+  },
+  "issues": {
+    "station_gone": {
+      "title": "Netatmo station {station} has disappeared",
+      "description": "The public station {station} has not been seen for 7 days. It was probably removed or made private. Open the integration options and pick another station."
+    }
+  }
+}
