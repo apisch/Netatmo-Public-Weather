@@ -9,7 +9,7 @@ from typing import Any
 
 import aiohttp
 
-from .const import API_PUBLIC_DATA
+from .const import API_PUBLIC_DATA, API_STATIONS_DATA
 from .geo import BBox
 
 _LOGGER = logging.getLogger(__name__)
@@ -46,7 +46,6 @@ class NetatmoPublicClient:
 
     async def async_get_public_data(self, bbox: BBox) -> list[dict[str, Any]]:
         """Return the raw station list for the given box."""
-        token = await self._get_token()
         params = {
             "lat_ne": f"{bbox.lat_ne:.6f}",
             "lon_ne": f"{bbox.lon_ne:.6f}",
@@ -54,12 +53,26 @@ class NetatmoPublicClient:
             "lon_sw": f"{bbox.lon_sw:.6f}",
             "filter": "false",
         }
+        body = await self._async_post(API_PUBLIC_DATA, params)
+        if not isinstance(body, list):
+            raise NetatmoApiError("Unexpected response from Netatmo")
+        self.last_body = body
+        return body
+
+    async def async_get_favorites(self) -> list[dict[str, Any]]:
+        """Return the account's stations including its favourites (raw devices)."""
+        body = await self._async_post(API_STATIONS_DATA, {"get_favorites": "true"})
+        devices = body.get("devices") if isinstance(body, dict) else None
+        if not isinstance(devices, list):
+            raise NetatmoApiError("Unexpected response from Netatmo")
+        return devices
+
+    async def _async_post(self, url: str, params: dict[str, str]) -> Any:
+        token = await self._get_token()
         try:
             async with asyncio.timeout(REQUEST_TIMEOUT):
                 resp = await self._websession.post(
-                    API_PUBLIC_DATA,
-                    data=params,
-                    headers={"Authorization": f"Bearer {token}"},
+                    url, data=params, headers={"Authorization": f"Bearer {token}"}
                 )
                 status = resp.status
                 try:
@@ -70,11 +83,9 @@ class NetatmoPublicClient:
             raise NetatmoApiError(f"Cannot reach Netatmo: {err}") from err
 
         _raise_for_error(status, payload)
-        body = payload.get("body") if isinstance(payload, dict) else None
-        if not isinstance(body, list):
+        if not isinstance(payload, dict):
             raise NetatmoApiError("Unexpected response from Netatmo")
-        self.last_body = body
-        return body
+        return payload.get("body")
 
 
 def _raise_for_error(status: int, payload: Any) -> None:

@@ -1,5 +1,7 @@
 # Creating the Netatmo app
 
+**English** | [Deutsch](de/netatmo-app.md)
+
 Netatmo only gives API access to registered apps. You create your own small "app" once. It only has to exist, so you don't build or publish anything. This takes about three minutes.
 
 ## 1. Sign in at the developer portal

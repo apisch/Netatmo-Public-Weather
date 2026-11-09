@@ -4,6 +4,18 @@
   },
   "config": {
     "step": {
+      "source": {
+        "title": "Woher kommen deine Stationen?",
+        "description": "Wähle öffentliche Netatmo-Stationen entweder aus deinen Favoriten auf der Netatmo-Wetterkarte oder über eine Suche rund um einen Ort.",
+        "menu_options": {
+          "favorites": "Meine Netatmo-Favoriten",
+          "area": "Stationen in der Nähe eines Ortes suchen"
+        }
+      },
+      "favorites": {
+        "title": "Deine Netatmo-Favoriten",
+        "description": "Öffne die [Netatmo-Wetterkarte]({map_url}), melde dich mit demselben Netatmo-Konto an, klicke eine öffentliche Station an und markiere sie mit dem Stern. Netatmo erlaubt bis zu 5 Favoriten. Sende dieses Formular danach ab, um sie neu zu laden."
+      },
       "pick_implementation": {
         "title": "Authentifizierungsmethode wählen"
       },
@@ -53,7 +65,8 @@
       "duplicate_order": "Jede Station darf in der Reihenfolge nur einmal vorkommen.",
       "invalid_id": "Eine der Stations-IDs ist keine gültige MAC-Adresse oder wurde nicht gefunden.",
       "cannot_connect": "Netatmo ist nicht erreichbar. Versuche es später erneut.",
-      "primary_missing_modules": "Die Hauptstation hat keinen Wind- oder keinen Regenmesser, dem Primary-Eintrag fehlen diese Werte dann, solange sie aktiv ist. Erneut absenden, um die Reihenfolge trotzdem zu behalten."
+      "primary_missing_modules": "Die Hauptstation hat keinen Wind- oder keinen Regenmesser, dem Primary-Eintrag fehlen diese Werte dann, solange sie aktiv ist. Erneut absenden, um die Reihenfolge trotzdem zu behalten.",
+      "no_favorites": "Dein Netatmo-Konto hat noch keine Favoriten-Stationen."
     },
     "abort": {
       "already_configured": "Konto ist bereits konfiguriert",
@@ -116,6 +129,18 @@
   },
   "options": {
     "step": {
+      "source": {
+        "title": "Woher kommen deine Stationen?",
+        "description": "Wähle öffentliche Netatmo-Stationen entweder aus deinen Favoriten auf der Netatmo-Wetterkarte oder über eine Suche rund um einen Ort.",
+        "menu_options": {
+          "favorites": "Meine Netatmo-Favoriten",
+          "area": "Stationen in der Nähe eines Ortes suchen"
+        }
+      },
+      "favorites": {
+        "title": "Deine Netatmo-Favoriten",
+        "description": "Öffne die [Netatmo-Wetterkarte]({map_url}), melde dich mit demselben Netatmo-Konto an, klicke eine öffentliche Station an und markiere sie mit dem Stern. Netatmo erlaubt bis zu 5 Favoriten. Sende dieses Formular danach ab, um sie neu zu laden."
+      },
       "area": {
         "title": "Wo soll nach Stationen gesucht werden?",
         "description": "Wähle den Mittelpunkt deiner Nachbarschaft und einen Suchradius. Im nächsten Schritt werden die öffentlichen Netatmo-Stationen in diesem Bereich aufgelistet.",
@@ -158,7 +183,8 @@
       "duplicate_order": "Jede Station darf in der Reihenfolge nur einmal vorkommen.",
       "invalid_id": "Eine der Stations-IDs ist keine gültige MAC-Adresse oder wurde nicht gefunden.",
       "cannot_connect": "Netatmo ist nicht erreichbar. Versuche es später erneut.",
-      "primary_missing_modules": "Die Hauptstation hat keinen Wind- oder keinen Regenmesser, dem Primary-Eintrag fehlen diese Werte dann, solange sie aktiv ist. Erneut absenden, um die Reihenfolge trotzdem zu behalten."
+      "primary_missing_modules": "Die Hauptstation hat keinen Wind- oder keinen Regenmesser, dem Primary-Eintrag fehlen diese Werte dann, solange sie aktiv ist. Erneut absenden, um die Reihenfolge trotzdem zu behalten.",
+      "no_favorites": "Dein Netatmo-Konto hat noch keine Favoriten-Stationen."
     },
     "abort": {
       "not_loaded": "Die Integration muss geladen sein, damit du die Optionen ändern kannst. Im Log steht, warum sie nicht startet."

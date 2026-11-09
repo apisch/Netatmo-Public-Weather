@@ -58,10 +58,17 @@ from .const import (
     MODULE_WIND,
     MAP_ZOOM_OVERVIEW,
     SCOPE,
+    WEATHERMAP_URL,
     weathermap_url,
 )
 from .geo import bbox_from_radius, haversine_km
-from .model import StationData, parse_public_data, place_name, station_label
+from .model import (
+    StationData,
+    parse_favorites,
+    parse_public_data,
+    place_name,
+    station_label,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -118,6 +125,45 @@ class StationPickerMixin:
         self, stations: list[dict[str, Any]], settings: dict[str, Any]
     ) -> ConfigFlowResult:
         raise NotImplementedError
+
+    async def async_step_source(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Ask where the stations come from: Netatmo favourites or a search."""
+        return self.async_show_menu(  # type: ignore[attr-defined]
+            step_id="source", menu_options=["favorites", "area"]
+        )
+
+    async def async_step_favorites(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Offer the stars set on the Netatmo Weathermap (one-time import)."""
+        errors: dict[str, str] = {}
+        if not hasattr(self, "_home"):
+            self._home = (self.hass.config.latitude, self.hass.config.longitude)
+        if not hasattr(self, "_radius"):
+            self._radius = DEFAULT_RADIUS_KM
+        try:
+            favorites = parse_favorites(await self._client.async_get_favorites())
+        except NetatmoApiError as err:
+            _LOGGER.warning("Reading Netatmo favourites failed: %s", err)
+            errors["base"] = "cannot_connect"
+        else:
+            if favorites:
+                home = self._home
+                ordered = sorted(
+                    favorites.values(),
+                    key=lambda s: haversine_km(home[0], home[1], s.lat, s.lon),
+                )
+                self._found = {s.station_id: s for s in ordered}
+                return await self.async_step_stations()
+            errors["base"] = "no_favorites"
+        return self.async_show_form(  # type: ignore[attr-defined]
+            step_id="favorites",
+            data_schema=vol.Schema({}),
+            errors=errors,
+            description_placeholders={"map_url": WEATHERMAP_URL},
+        )
 
     async def async_step_area(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Ask where to search."""
@@ -372,7 +418,7 @@ class OAuth2FlowHandler(
             return token
 
         self._client = NetatmoPublicClient(async_get_clientsession(self.hass), _token)
-        return await self.async_step_area()
+        return await self.async_step_source()
 
     def _defaults(self) -> dict[str, Any]:
         return {}
@@ -409,7 +455,7 @@ class NetatmoPublicOptionsFlow(StationPickerMixin, OptionsFlow):
                 sum(s.lon for s in stations) / len(stations),
             )
         self._radius = float(self.config_entry.options.get(CONF_RADIUS_KM, DEFAULT_RADIUS_KM))
-        return await self.async_step_area()
+        return await self.async_step_source()
 
     def _defaults(self) -> dict[str, Any]:
         opts = dict(self.config_entry.options)

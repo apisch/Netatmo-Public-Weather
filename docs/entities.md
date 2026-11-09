@@ -1,5 +1,7 @@
 # Entities
 
+**English** | [Deutsch](de/entities.md)
+
 Every integration entry creates the following devices:
 
 | Device | Created when | Contains |

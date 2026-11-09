@@ -5,6 +5,8 @@
 
 # Netatmo Public Weather
 
+**English** | [Deutsch](README.de.md)
+
 [![Marketplace / HACS Custom](https://img.shields.io/badge/Marketplace%20%7C%20HACS-Custom-orange.svg)](https://www.home-assistant.io/integrations/marketplace/#custom-repositories)
 [![Release](https://img.shields.io/github/v/release/apisch/Netatmo-Public-Weather?sort=semver)](https://github.com/apisch/Netatmo-Public-Weather/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -35,7 +37,7 @@ Stale data is never shown as current. If a station stops reporting, its entities
 
 ## Features
 
-- UI-only setup: you sign in with Netatmo and choose stations from a list sorted by distance, with icons for their modules (🌡 temperature, 🌧 rain, 💨 wind) and their altitude. Links open each station on the [Netatmo Weathermap](https://weathermap.netatmo.com/), so you can check location and history before you decide.
+- UI-only setup: you sign in with Netatmo and either take the stations you starred on the [Netatmo Weathermap](https://weathermap.netatmo.com/), or search around a place. Either way you choose from a list sorted by distance, with icons for their modules (🌡 temperature, 🌧 rain, 💨 wind) and their altitude. Links open each station on the [Netatmo Weathermap](https://weathermap.netatmo.com/), so you can check location and history before you decide.
 - Failover with hysteresis. Primary switches away at once when a station fails, and switches back only after two good updates.
 - Optional source entity for condition, forecasts (daily, hourly, twice daily), UV index, cloud coverage, apparent temperature, visibility and ozone.
 - Measured rain beats the forecast model: if a station measures rain, the condition is `rainy` whatever the source says.
@@ -43,7 +45,7 @@ Stale data is never shown as current. If a station stops reporting, its entities
 - Units follow your Home Assistant unit system (°C/°F, km/h/mph, hPa/inHg, mm/in).
 - About 6 API requests per hour, about 1 % of Netatmo's limit. If Netatmo signals the limit anyway, the integration backs off automatically.
 - A repair issue appears when a selected station has been gone for 7 days.
-- English and German UI.
+- English and German UI and documentation.
 
 ## Installation
 
@@ -74,7 +76,9 @@ Copy `custom_components/netatmo_public_weather` from the [latest release](https:
 
 1. **Create a Netatmo app** (about 3 minutes, once): see [docs/netatmo-app.md](docs/netatmo-app.md). You need its **client ID** and **client secret**, and the redirect URI must be `https://my.home-assistant.io/redirect/oauth`.
 2. In Home Assistant, go to **Settings → Devices & services → Add integration → Netatmo Public Weather**. Enter the client ID and secret when asked, then sign in with your Netatmo account.
-3. **Choose the search area.** It defaults to your home location and a radius of 3 km.
+3. **Choose where the stations come from:**
+   - **My Netatmo favourites:** star up to 5 public stations on the [Netatmo Weathermap](https://weathermap.netatmo.com/) beforehand (signed in with the same account). The stations are imported once; later changes to your favourites don't change the integration.
+   - **Search near a place:** defaults to your home location and a radius of 3 km.
 4. **Pick 1 to 3 stations.** Prefer stations that have both 🌧 and 💨 if you need rain and wind.
 5. **Set the priority.** Optionally pick a weather entity as the source for condition and forecast.
 
@@ -87,6 +91,8 @@ You can change stations, priority, source and timing later under **Configure** o
 - [Failover and averaging](docs/failover.md): the exact rules
 - [FAQ and troubleshooting](docs/faq.md)
 
+The documentation is also available [in German](README.de.md#dokumentation).
+
 ## Example: retract the awning when it gets windy
 
 ```yaml
@@ -94,10 +100,10 @@ automation:
   - alias: "Awning: retract on wind"
     triggers:
       - trigger: numeric_state
-        entity_id: sensor.netatmo_my_street_primary_gust_speed
+        entity_id: sensor.netatmo_mytown_ab_cd_primary_gust_speed
         above: 35
       - trigger: state
-        entity_id: binary_sensor.netatmo_my_street_primary_data_fresh
+        entity_id: binary_sensor.netatmo_mytown_ab_cd_primary_data_fresh
         to: "off"
         for: "00:20:00"
     actions:
@@ -106,7 +112,7 @@ automation:
           entity_id: cover.awning
 ```
 
-The second trigger retracts the awning when no station has delivered fresh data for 20 minutes, so the awning is never left out blind. Your entity IDs depend on the station names; look them up on the device page.
+The second trigger retracts the awning when no station has delivered fresh data for 20 minutes, so the awning is never left out blind. Your entity IDs depend on the station names and on the language of your Home Assistant; look them up on the device page.
 
 ## Development
 

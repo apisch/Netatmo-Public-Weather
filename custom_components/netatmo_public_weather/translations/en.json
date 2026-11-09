@@ -11,6 +11,18 @@
         "title": "Authentication expired",
         "description": "Netatmo no longer accepts the stored login. Sign in again to continue."
       },
+      "source": {
+        "title": "Where do your stations come from?",
+        "description": "Pick public Netatmo stations either from your favourites on the Netatmo Weathermap, or from a search around a place.",
+        "menu_options": {
+          "favorites": "My Netatmo favourites",
+          "area": "Search stations near a place"
+        }
+      },
+      "favorites": {
+        "title": "Your Netatmo favourites",
+        "description": "Open the [Netatmo Weathermap]({map_url}), sign in with the same Netatmo account, click a public station and mark it with the star. Netatmo allows up to 5 favourites. Then submit this form to load them again."
+      },
       "area": {
         "title": "Where should we look for stations?",
         "description": "Pick the centre of your neighbourhood and a search radius. Public Netatmo stations inside this area will be listed next.",
@@ -53,7 +65,8 @@
       "duplicate_order": "Each station can only be used once in the priority list.",
       "invalid_id": "One of the station IDs is not a valid MAC address or was not found near its position.",
       "cannot_connect": "Could not reach Netatmo. Try again later.",
-      "primary_missing_modules": "The primary station has no wind or no rain module, so the Primary entity will lack these values while it is active. Submit again to keep this order."
+      "primary_missing_modules": "The primary station has no wind or no rain module, so the Primary entity will lack these values while it is active. Submit again to keep this order.",
+      "no_favorites": "Your Netatmo account has no favourite stations yet."
     },
     "abort": {
       "already_configured": "Account is already configured",
@@ -74,6 +87,18 @@
   },
   "options": {
     "step": {
+      "source": {
+        "title": "Where do your stations come from?",
+        "description": "Pick public Netatmo stations either from your favourites on the Netatmo Weathermap, or from a search around a place.",
+        "menu_options": {
+          "favorites": "My Netatmo favourites",
+          "area": "Search stations near a place"
+        }
+      },
+      "favorites": {
+        "title": "Your Netatmo favourites",
+        "description": "Open the [Netatmo Weathermap]({map_url}), sign in with the same Netatmo account, click a public station and mark it with the star. Netatmo allows up to 5 favourites. Then submit this form to load them again."
+      },
       "area": {
         "title": "Where should we look for stations?",
         "description": "Pick the centre of your neighbourhood and a search radius. Public Netatmo stations inside this area will be listed next.",
@@ -116,7 +141,8 @@
       "duplicate_order": "Each station can only be used once in the priority list.",
       "invalid_id": "One of the station IDs is not a valid MAC address or was not found near its position.",
       "cannot_connect": "Could not reach Netatmo. Try again later.",
-      "primary_missing_modules": "The primary station has no wind or no rain module, so the Primary entity will lack these values while it is active. Submit again to keep this order."
+      "primary_missing_modules": "The primary station has no wind or no rain module, so the Primary entity will lack these values while it is active. Submit again to keep this order.",
+      "no_favorites": "Your Netatmo account has no favourite stations yet."
     },
     "abort": {
       "not_loaded": "The integration must be loaded to change its options. Check the logs for why it failed to start."

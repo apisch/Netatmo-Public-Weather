@@ -10,6 +10,7 @@ DOMAIN: Final = "netatmo_public_weather"
 OAUTH2_AUTHORIZE: Final = "https://api.netatmo.com/oauth2/authorize"
 OAUTH2_TOKEN: Final = "https://api.netatmo.com/oauth2/token"
 API_PUBLIC_DATA: Final = "https://api.netatmo.com/api/getpublicdata"
+API_STATIONS_DATA: Final = "https://api.netatmo.com/api/getstationsdata"
 SCOPE: Final = "read_station"
 
 CONF_STATIONS: Final = "stations"  # ordered list of {id, lat, lon, name, modules}

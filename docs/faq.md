@@ -1,8 +1,18 @@
 # FAQ and troubleshooting
 
+**English** | [Deutsch](de/faq.md)
+
 ### The station list is empty
 
 There are no public stations in the search area, or Netatmo returned none. Go back and use a larger radius. In rural areas, public stations may be several kilometres apart. You can check coverage on the Netatmo Weathermap: <https://weathermap.netatmo.com>.
+
+### Favourites or search: which should I use?
+
+Both lead to the same result. With **favourites** you pick stations on the map first, where you see their exact location and history. With the **search** you get a list of all stations around a place. Favourites are imported once. If you change your stars later, open **Configure** on the integration and choose *My Netatmo favourites* again.
+
+### My favourites are not found
+
+The integration only lists stations you starred while signed in with the **same Netatmo account** you used to log in to Home Assistant. Your own Netatmo stations are not listed; they may be private and would then not deliver public data. Netatmo allows at most 5 favourites.
 
 ### I know a station that is not listed
 
@@ -46,7 +56,7 @@ The weather entities only proxy the forecast of the source entity. Configure one
 
 ### Migrating from the `nfws` add-on
 
-Both can run side by side. Set up this integration with the same stations, compare the values for a few days, then switch your automations and dashboards to the new entity IDs. After that, remove the add-on. This integration does not need Netatmo favourites, and it creates no compass text or arrow sensors; Home Assistant shows wind directions natively.
+Both can run side by side. Set up this integration with the same stations, compare the values for a few days, then switch your automations and dashboards to the new entity IDs. After that, remove the add-on. If nfws already reads your Netatmo favourites, choose *My Netatmo favourites* during setup to get the same stations. This integration creates no compass text or arrow sensors; Home Assistant shows wind directions natively.
 
 ### Diagnostics
 

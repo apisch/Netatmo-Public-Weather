@@ -19,6 +19,7 @@ from homeassistant.setup import async_setup_component
 
 from custom_components.netatmo_public_weather.const import (
     API_PUBLIC_DATA,
+    API_STATIONS_DATA,
     CONF_SOURCE_ENTITY,
     CONF_STALE_MINUTES,
     CONF_STATIONS,
@@ -73,14 +74,19 @@ async def _oauth(hass, result, hass_client_no_auth, aioclient_mock, access="flow
     return await hass.config_entries.flow.async_configure(result["flow_id"])
 
 
-async def _start(hass, hass_client_no_auth, aioclient_mock, payload=None):
+async def _start(hass, hass_client_no_auth, aioclient_mock, payload=None, choice="area"):
     aioclient_mock.post(API_PUBLIC_DATA, json=payload or load_payload())
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
     result = await _oauth(hass, result, hass_client_no_auth, aioclient_mock)
-    assert result["type"] is FlowResultType.FORM
-    assert result["step_id"] == "area"
+    assert result["type"] is FlowResultType.MENU
+    assert result["step_id"] == "source"
+    assert result["menu_options"] == ["favorites", "area"]
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {"next_step_id": choice})
+    if choice == "area":
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "area"
     return result
 
 
@@ -226,6 +232,10 @@ async def test_options_flow_reorders(hass, aioclient_mock):
     await hass.async_block_till_done()
 
     result = await hass.config_entries.options.async_init(entry.entry_id)
+    assert result["type"] is FlowResultType.MENU
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"next_step_id": "area"}
+    )
     assert result["step_id"] == "area"
     result = await hass.config_entries.options.async_configure(
         result["flow_id"], {"location": CENTRE, "radius_km": 3}
@@ -268,3 +278,50 @@ async def test_reauth(hass, hass_client_no_auth, aioclient_mock):
     assert result["reason"] == "reauth_successful"
     assert entry.data["token"]["access_token"] == "new-access"
     assert entry.data[CONF_STATIONS][0]["id"] == FULL
+
+
+def _favorites_payload(devices=None):
+    import json
+
+    from .conftest import FIXTURES
+
+    data = json.loads((FIXTURES / "getstationsdata.json").read_text())
+    if devices is not None:
+        data["body"]["devices"] = devices
+    return data
+
+
+@pytest.mark.usefixtures("current_request_with_host", "credentials")
+async def test_favorites_flow(hass, hass_client_no_auth, aioclient_mock):
+    aioclient_mock.post(API_STATIONS_DATA, json=_favorites_payload())
+    result = await _start(hass, hass_client_no_auth, aioclient_mock, choice="favorites")
+    assert result["step_id"] == "stations"
+    assert result["description_placeholders"]["count"] == "2"
+    call = next(c for c in aioclient_mock.mock_calls if str(c[1]) == API_STATIONS_DATA)
+    assert call[2]["get_favorites"] == "true"
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {"stations": ["70:ee:50:aa:bb:cc"]}
+    )
+    assert result["step_id"] == "settings"
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {CONF_UPDATE_INTERVAL: 10, CONF_STALE_MINUTES: 30}
+    )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    station = result["data"][CONF_STATIONS][0]
+    assert station["id"] == "70:ee:50:aa:bb:cc"
+    assert station["modules"] == ["base", "rain", "wind"]
+    assert station["name"] == "Wiesbaden bb:cc"
+
+
+@pytest.mark.usefixtures("current_request_with_host", "credentials")
+async def test_no_favorites(hass, hass_client_no_auth, aioclient_mock):
+    aioclient_mock.post(API_STATIONS_DATA, json=_favorites_payload(devices=[]))
+    result = await _start(hass, hass_client_no_auth, aioclient_mock, choice="favorites")
+    assert result["step_id"] == "favorites"
+    assert result["errors"] == {"base": "no_favorites"}
+    assert result["description_placeholders"]["map_url"].startswith("https://weathermap.netatmo.com/")
+    # user stars stations on the map, then retries
+    aioclient_mock.clear_requests()
+    aioclient_mock.post(API_STATIONS_DATA, json=_favorites_payload())
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+    assert result["step_id"] == "stations"

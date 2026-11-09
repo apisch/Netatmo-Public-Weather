@@ -1,5 +1,7 @@
 # Failover and averaging
 
+**English** | [Deutsch](de/failover.md)
+
 > [!WARNING]
 > Public Netatmo data arrives 10 to 20 minutes late and comes from stations you don't control. The rules below make it as trustworthy as possible, but they do **not** make it a storm guard. Protect awnings and similar equipment with a local wind sensor.
 

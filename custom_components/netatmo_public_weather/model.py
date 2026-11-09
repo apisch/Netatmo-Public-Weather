@@ -165,6 +165,69 @@ def parse_public_data(body: list[dict[str, Any]]) -> dict[str, StationData]:
     return result
 
 
+_FAVORITE_MODULES = {"NAModule1": MODULE_BASE, "NAModule2": MODULE_WIND, "NAModule3": MODULE_RAIN}
+
+
+def _parse_favorite(raw: dict[str, Any]) -> StationData | None:
+    station_id = raw.get("_id")
+    place = raw.get("place") or {}
+    location = place.get("location")
+    if not isinstance(station_id, str) or not isinstance(location, list) or len(location) != 2:
+        return None
+    try:
+        lon, lat = float(location[0]), float(location[1])
+    except (TypeError, ValueError):
+        return None
+
+    modules: set[str] = set()
+    timestamps: dict[str, datetime] = {}
+    for module in raw.get("modules") or []:
+        if not isinstance(module, dict):
+            continue
+        kind = _FAVORITE_MODULES.get(module.get("type"))
+        if kind is None:
+            continue  # indoor modules are irrelevant for public weather
+        modules.add(kind)
+        dash = module.get("dashboard_data")
+        if isinstance(dash, dict) and (ts := _ts(dash.get("time_utc"))) is not None:
+            timestamps[kind] = ts
+
+    altitude = place.get("altitude")
+    city = place.get("city")
+    return StationData(
+        station_id=station_id,
+        lat=lat,
+        lon=lon,
+        altitude=altitude if isinstance(altitude, int) else None,
+        city=city if isinstance(city, str) else None,
+        street=None,
+        modules=frozenset(modules),
+        timestamps=timestamps,
+    )
+
+
+def parse_favorites(devices: Any) -> dict[str, StationData]:
+    """Parse getstationsdata devices, keeping only favourite stations.
+
+    The account's own stations are skipped: they are often private and
+    would then never appear in getpublicdata, which is used at runtime.
+    """
+    result: dict[str, StationData] = {}
+    if not isinstance(devices, list):
+        return result
+    for raw in devices:
+        if not isinstance(raw, dict) or raw.get("favorite") is not True:
+            continue
+        try:
+            station = _parse_favorite(raw)
+        except Exception:  # noqa: BLE001 - never let one odd station break all
+            _LOGGER.debug("Skipping unparsable favourite %s", raw.get("_id"))
+            continue
+        if station is not None:
+            result[station.station_id] = station
+    return result
+
+
 def short_id(station_id: str) -> str:
     """Return the last two bytes of a station MAC, e.g. '48:8c'."""
     return station_id[-5:]

@@ -77,3 +77,29 @@ def test_city_only_gets_short_id(public_body):
     data = parse_public_data(public_body)
     assert station_label(data[RAIN], None) == "Rheine 94:7c"
     assert station_label(data[WIND], None) == "Rheine ed:7a"
+
+
+def test_parse_favorites_only_favourites():
+    import json
+
+    from custom_components.netatmo_public_weather.model import parse_favorites
+
+    from .conftest import FIXTURES
+
+    devices = json.loads((FIXTURES / "getstationsdata.json").read_text())["body"]["devices"]
+    favs = parse_favorites(devices)
+    assert set(favs) == {"00:11:22:2c:be:c8", "70:ee:50:aa:bb:cc"}  # own station skipped
+    assert favs["00:11:22:2c:be:c8"].modules == {"base"}
+    assert favs["70:ee:50:aa:bb:cc"].modules == {"base", "rain", "wind"}
+    first = favs["00:11:22:2c:be:c8"]
+    assert round(first.lat, 3) == 50.076  # location is [lon, lat]
+    assert first.altitude == 127
+    assert first.city == "Wiesbaden"
+    assert "base" in first.timestamps
+
+
+def test_parse_favorites_garbage():
+    from custom_components.netatmo_public_weather.model import parse_favorites
+
+    assert parse_favorites([{"favorite": True}, "x", {"_id": "a", "favorite": True, "place": {}}]) == {}
+    assert parse_favorites(None) == {}

@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-11-09
+
+### Added
+- Stations can come from your **Netatmo favourites**. Star up to 5 public stations on the Netatmo Weathermap, then choose *My Netatmo favourites* during setup or under **Configure**. The favourites are imported once; later changes to the stars do not change the integration. Searching around a place still works as before.
+- German documentation (`README.de.md`, `docs/de/`), with language links on every page.
+
+### Changed
+- The setup and options flows start with a choice between favourites and search.
+
 ## [0.2.0] - 2026-11-09
 
 ### Added
@@ -41,6 +50,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - Options flow to change stations, priority, source and timing.
 - English and German UI, and English documentation.
 
+[0.3.0]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/apisch/Netatmo-Public-Weather/compare/v0.1.1...v0.1.2
